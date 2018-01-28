@@ -3,7 +3,7 @@
 Plugin Name:  Vineyard Köln Slack Integration Plugin
 Plugin URI:   https://vineyard.koeln/
 Description:  Integrates actions on the Vineyard Köln website with the Slack App at https://api.slack.com/apps/A8WCTG39S
-Version:      0.1
+Version:      0.1.1
 Author:       Jörn Wagner
 Author URI:   https://github.com/YetiCGN
 License:      GPL3
@@ -24,7 +24,7 @@ along with Vineyard Köln Slack Integration Plugin. If not, see https://www.gnu.
 */
 defined('ABSPATH') or die('Access denied');
 
-function sermon_slack_slack_sermon_published($postId) {
+function sermon_slack_sermon_published($postId) {
     $getPostDetails = file_get_contents(get_rest_url(null, '/wp/v2/wpfc_sermon/') . $postId);
     $postDetails = json_decode($getPostDetails, JSON_OBJECT_AS_ARRAY);
     if (!$postDetails) {
@@ -52,7 +52,7 @@ function sermon_slack_slack_sermon_published($postId) {
         "text" => "Eine neue Predigt wurde veröffentlicht!",
         "attachments" => [
             [
-                "title" => "Thema: $title",
+                "title" => $title,
                 "text" => "Datum: $date\nvon: $preacher\nLänge: $length",
                 "fallback" => "Thema: $title\nDatum: $date\nvon: $preacher\nLink: $link",
                 "actions" => [
